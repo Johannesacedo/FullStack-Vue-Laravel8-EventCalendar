@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import router from './config/routes.js'
 import axios from './config/axios.js'
-import App from './views/App'
+import App from './components/App'
 
 Vue.component('AlertBox', require('./components/Alerts.vue').default)
 Vue.prototype.$http = axios

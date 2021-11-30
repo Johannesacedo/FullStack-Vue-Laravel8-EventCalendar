@@ -17,7 +17,7 @@ class CalendarController extends Controller
         return response()->json(Calendar::orderBy('created_at', 'desc')->get());
     }
 
-    public function addEvent(Request $request)
+    public function store(Request $request)
     {
         $calendar = new Calendar;
         $calendar->event = $request->event;

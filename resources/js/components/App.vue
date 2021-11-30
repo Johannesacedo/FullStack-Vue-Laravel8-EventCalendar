@@ -1,13 +1,12 @@
-const { filter } = require("vue/types/umd");
 <template>
   <div class="container mt-5">
     <AlertBox v-show="submit_status === 'OK'" data="alert-success" ></AlertBox>
-    <h3>Calendar</h3><hr/>
+    <h3>Calendar of Acitivities</h3><hr/>
     <div class="row">
       <div class="col-md-5">
         <div class="form-group">
           <label for="event">Event:</label>
-          <input type="text" @keyup="reEvaluate" v-model="event" class="form-control" placeholder="ex. practice" id="event">
+          <input type="text" @keyup="reEvaluate" v-model="event" class="form-control" placeholder="Enter an Activity" id="event">
         </div>
         <div class="form-group grid">
           <label for="from">From:<br/>
@@ -24,7 +23,7 @@ const { filter } = require("vue/types/umd");
           <label><input @change="reEvaluate" type="checkbox" v-model="sat" true-value="Saturday"> Sat</label>
           <label><input @change="reEvaluate" type="checkbox" v-model="sun" true-value="Sunday"> Sun</label>
         </div> 
-        <button type="submit" @click.prevent="onSubmit" class="btn btn-primary btn-sm">Save</button>
+        <button type="submit" @click.prevent="onSubmit()" class="btn btn-primary btn-sm">Save</button>
       </div>
       <div class="col-md-7">
         <div id="table">
@@ -66,7 +65,7 @@ const { filter } = require("vue/types/umd");
       this.$http.get(`api/calendar`)
       .then(response => {
         this.dates = response.data
-        //might wanna end load effect here
+       
       })
     },
     methods: {
@@ -78,7 +77,7 @@ const { filter } = require("vue/types/umd");
           this.submit_status = 'PENDING'
           this.addEvent()
           .then(response => {
-              // this.dates = response.data
+              
               this.submit_status = 'OK'
           })
         }
@@ -121,29 +120,21 @@ const { filter } = require("vue/types/umd");
         }catch(e){ this.error = true} 
       },
       days_difference(from_date,to_date) {
-        // To calculate the time difference of two dates 
+        
         let Difference_In_Time = this.getDate(from_date).getTime() - this.getDate(to_date).getTime(); 
-        // To calculate the no. of days between two dates 
+        
         let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        //round it - lol
+        
         let difference = Math.abs(Math.round(Difference_In_Days))
-        //validate
+        
         let valid = this.getDate(from_date) < this.getDate(to_date) && difference > 0
-        //return
+        
         return valid? difference : 0
       },  
       get_days_in_month(month,year){
         return new Date(year, month, 0).getDate();
       },
-      // getDatesBetweenDates(startDate, endDate) {
-      //   const theDate = new Date(startDate)
-      //   this.dates = [];
-      //   while (theDate < endDate) {
-      //     this.dates.push(new Date(theDate))
-      //     theDate.setDate(theDate.getDate() + 1)
-      //   }
-      //   return this.dates
-      // },
+      
       getDayName(day) {
         let days = this.getWeekDays()
         return days[day]
@@ -169,13 +160,12 @@ const { filter } = require("vue/types/umd");
         return '-'
       },
       add_rows(date) {
-        //get each day from start to end date
+        
         const theDate = this.getDate(date.from)
         const endDate = this.getDate(date.to)
 
         let localOrDatabaseEvent = this.on_change? this.event : date.event
         let localOrDatabaseDays = this.on_change? this.getCheckboxFilters() : date.days
-        let filters = date.days
         let rows = []
         
         while (theDate <= endDate) {
@@ -187,7 +177,7 @@ const { filter } = require("vue/types/umd");
           dataForEachLine.description = description
 
           rows.push(dataForEachLine)
-          theDate.setDate(theDate.getDate() + 1)  //icrement each day
+          theDate.setDate(theDate.getDate() + 1)  
         }
         this.on_change = false;
 

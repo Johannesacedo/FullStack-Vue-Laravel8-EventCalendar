@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('calendar', 'CalendarController@index');
-Route::post('calendar', 'CalendarController@addEvent');
+Route::post('calendar', 'CalendarController@store');
